@@ -1,0 +1,47 @@
+{
+  "name": "@pieced/style-config-webpack-plugin",
+  "version": "1.0.0",
+  "description": "Automatically configuration webpack5 style loader",
+  "author": "mingdev <mingdev@163.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "lint-staged": "lint-staged",
+    "lint:eslint": "eslint --ext .js src config"
+  },
+  "imports": {
+    "#config/*": "./config/*.js",
+    "#config": "./config/index.js",
+    "#src/*": "./src/*.js"
+  },
+  "homepage": "https://github.com/pieced-team/style-config-webpack-plugin",
+  "pre-commit": "lint-staged",
+  "dependencies": {
+    "css-loader": "^6.7.3",
+    "css-minimizer-webpack-plugin": "^4.2.2",
+    "lodash": "^4.17.21",
+    "mini-css-extract-plugin": "^2.7.2",
+    "postcss-loader": "^7.0.2",
+    "style-loader": "^3.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "lint-staged": "^13.1.2",
+    "pre-commit": "^1.2.2"
+  },
+  "peerDependencies": {
+    "webpack": ">=5.0.0"
+  },
+  "files": [
+    "index.js",
+    "src",
+    "config"
+  ],
+  "keywords": [
+    "webpack",
+    "webpack-plugin",
+    "style-config-webpack-plugin"
+  ]
+}
