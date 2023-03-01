@@ -76,6 +76,7 @@ const defaultExtract = webpack.mode === 'production' && {
 **minimizer**
 
 - `type object`
+- [css-minimizer-webpack-plugin options](https://webpack.js.org/plugins/css-minimizer-webpack-plugin)
 - default
 
 ```js
