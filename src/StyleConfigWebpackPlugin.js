@@ -1,5 +1,5 @@
 const mergeFn = require('lodash/merge');
-const config = require('#config');
+const config = require('./config');
 
 module.exports = class StyleConfigWebpackPlugin {
   constructor(options) {
