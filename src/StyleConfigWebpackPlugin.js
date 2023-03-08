@@ -39,6 +39,6 @@ module.exports = class StyleConfigWebpackPlugin {
         },
       },
     };
-    return mergeFn({}, defaultOpt, this.options, isDev);
+    return mergeFn({}, defaultOpt, this.options, { isDev, context: compiler.context || process.cwd() });
   }
 };

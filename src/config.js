@@ -1,9 +1,48 @@
+const path = require('path');
+const fs = require('fs');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 
+// search postcss options file
+const searchOptionsFile = (rootDir) => {
+  const fileList = [
+    '.postcssrc',
+    '.postcssrc.json',
+    '.postcssrc.yaml',
+    '.postcssrc.yml',
+    '.postcssrc.js',
+    '.postcssrc.cjs',
+    'postcss.config.js',
+    'postcss.config.cjs',
+  ];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const file of fileList) {
+    const configFile = path.resolve(rootDir, file);
+    if (fs.existsSync(configFile)) {
+      return configFile;
+    }
+  }
+};
+
+// postcss options
+const getPostcssOptions = (opt) => {
+  const postcssCfgFile = searchOptionsFile(opt.context);
+  if (postcssCfgFile) {
+    return {
+      config: postcssCfgFile,
+    };
+  }
+
+  return {
+    plugins: {
+      'postcss-preset-env': {},
+    },
+  };
+};
+
 // css loader
 const cssLoaders = (opt) => {
-  const { usePostCSS, useCssModules, extract, sourceMap, cssModulesName, generator } = opt;
+  const { usePostCSS, useCssModules, extract, sourceMap, cssModulesName, generator, postcssOptions } = opt;
 
   const cssLoader = {
     loader: 'css-loader',
@@ -20,6 +59,7 @@ const cssLoaders = (opt) => {
     loader: 'postcss-loader',
     options: {
       sourceMap,
+      postcssOptions,
     },
   };
 
@@ -58,8 +98,9 @@ const cssLoaders = (opt) => {
 
 // Generate loaders
 const styleLoaders = (options) => {
-  const normalLoaders = cssLoaders(options);
-  const cssModulesLoaders = cssLoaders({ ...options, useCssModules: true });
+  const postcssOptions = getPostcssOptions(options);
+  const normalLoaders = cssLoaders({ ...options, postcssOptions });
+  const cssModulesLoaders = cssLoaders({ ...options, useCssModules: true, postcssOptions });
 
   return Object.keys(normalLoaders).map((suffix) => {
     const test = new RegExp(`\\.${suffix}$`, 'i');
