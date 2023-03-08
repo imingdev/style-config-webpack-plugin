@@ -1,49 +1,48 @@
 {
     "name": "@pieced/style-config-webpack-plugin",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Automatically configuration webpack5 style loader",
     "author": "mingdev <mingdev@163.com>",
     "license": "MIT",
     "main": "./dist/StyleConfigWebpackPlugin.js",
     "scripts": {
-      "build": "cross-env NODE_ENV=production babel src --out-dir dist",
-      "prepublishOnly": "npm run build",
-      "lint-staged": "lint-staged",
-      "lint:eslint": "eslint --ext .js src"
+        "build": "cross-env NODE_ENV=production babel src --out-dir dist",
+        "prepublishOnly": "npm run build",
+        "lint-staged": "lint-staged",
+        "lint:eslint": "eslint --ext .js src"
     },
     "homepage": "https://github.com/pieced-team/style-config-webpack-plugin",
     "pre-commit": "lint-staged",
     "dependencies": {
-      "css-loader": "^6.7.3",
-      "css-minimizer-webpack-plugin": "^4.2.2",
-      "lodash": "^4.17.21",
-      "mini-css-extract-plugin": "^2.7.2",
-      "postcss-loader": "^7.0.2",
-      "postcss-preset-env": "^8.0.1",
-      "style-loader": "^3.3.1"
+        "css-loader": "^6.7.3",
+        "css-minimizer-webpack-plugin": "^4.2.2",
+        "lodash": "^4.17.21",
+        "mini-css-extract-plugin": "^2.7.2",
+        "postcss-loader": "^7.0.2",
+        "postcss-preset-env": "^8.0.1",
+        "style-loader": "^3.3.1"
     },
     "devDependencies": {
-      "@babel/cli": "^7.21.0",
-      "@babel/core": "^7.21.0",
-      "@babel/preset-env": "^7.20.2",
-      "@types/node": "^18.14.6",
-      "@types/webpack": "^5.28.0",
-      "cross-env": "^7.0.3",
-      "eslint": "^8.35.0",
-      "eslint-config-airbnb-base": "^15.0.0",
-      "eslint-plugin-import": "^2.27.5",
-      "lint-staged": "^13.1.2",
-      "pre-commit": "^1.2.2"
+        "@babel/cli": "^7.21.0",
+        "@babel/core": "^7.21.0",
+        "@babel/preset-env": "^7.20.2",
+        "@types/node": "^18.14.6",
+        "@types/webpack": "^5.28.0",
+        "cross-env": "^7.0.3",
+        "eslint": "^8.35.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-plugin-import": "^2.27.5",
+        "lint-staged": "^13.1.2",
+        "pre-commit": "^1.2.2"
     },
     "peerDependencies": {
-      "webpack": ">=5.0.0"
+        "webpack": ">=5.0.0"
     },
     "files": [
-      "dist"
+        "dist"
     ],
     "keywords": [
-      "webpack",
-      "webpack-plugin"
+        "webpack",
+        "webpack-plugin"
     ]
-  }
-  
+}
