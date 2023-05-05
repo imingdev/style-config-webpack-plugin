@@ -9,11 +9,11 @@ module.exports = class StyleConfigWebpackPlugin {
   }
 
   apply(compiler) {
-    const { constructor, getOptions } = this;
+    const { getOptions } = this;
 
     const cfg = config(getOptions(compiler));
     // Merge config
-    compiler.hooks.afterEnvironment.tap(constructor.name, () => compiler.options.module.rules.push(...cfg.module.rules));
+    compiler.options.module.rules.push(...cfg.module.rules);
     cfg.plugins.forEach((plugin) => plugin.apply(compiler));
   }
 
@@ -22,6 +22,7 @@ module.exports = class StyleConfigWebpackPlugin {
     const defaultOpt = {
       cssModulesQuery: 'modules',
       usePostCSS: true,
+      useCssModules: true,
       extract: !isDev && {
         filename: 'static/css/[contenthash:10].css',
         chunkFilename: 'static/css/[contenthash:10].css',

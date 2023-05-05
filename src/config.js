@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const mergeFn = require('lodash/merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 
@@ -86,35 +87,43 @@ const cssLoaders = (opt) => {
   };
 
   return {
-    css: generator('css', generateLoaders()),
-    postcss: generator('postcss', generateLoaders()),
-    less: generator('less', generateLoaders('less')),
-    sass: generator('sass', generateLoaders('sass', { indentedSyntax: true })),
-    scss: generator('scss', generateLoaders('sass')),
-    stylus: generator('stylus', generateLoaders('stylus')),
-    styl: generator('styl', generateLoaders('stylus')),
+    css: generator('css', generateLoaders(), opt),
+    postcss: generator('postcss', generateLoaders(), opt),
+    less: generator('less', generateLoaders('less'), opt),
+    sass: generator('sass', generateLoaders('sass', { indentedSyntax: true }), opt),
+    scss: generator('scss', generateLoaders('sass'), opt),
+    stylus: generator('stylus', generateLoaders('stylus'), opt),
+    styl: generator('styl', generateLoaders('stylus'), opt),
   };
 };
 
 // Generate loaders
 const styleLoaders = (options) => {
   const postcssOptions = getPostcssOptions(options);
-  const normalLoaders = cssLoaders({ ...options, postcssOptions });
-  const cssModulesLoaders = cssLoaders({ ...options, useCssModules: true, postcssOptions });
+  const useCssModules = !!options.useCssModules;
+  const normalLoaders = cssLoaders(mergeFn({}, options, { useCssModules: false, postcssOptions }));
+  if (useCssModules) {
+    const cssModulesLoaders = cssLoaders(mergeFn({}, options, { useCssModules: true, postcssOptions }));
+    return Object.keys(normalLoaders).map((suffix) => {
+      const test = new RegExp(`\\.${suffix}$`, 'i');
+      const curNormalLoaders = normalLoaders[suffix];
+      return {
+        oneOf: [{
+          test,
+          resourceQuery: new RegExp(options.cssModulesQuery),
+          use: cssModulesLoaders[suffix],
+        }, {
+          test,
+          use: curNormalLoaders,
+        }],
+      };
+    });
+  }
 
-  return Object.keys(normalLoaders).map((suffix) => {
-    const test = new RegExp(`\\.${suffix}$`, 'i');
-    return {
-      oneOf: [{
-        test,
-        resourceQuery: new RegExp(options.cssModulesQuery),
-        use: cssModulesLoaders[suffix],
-      }, {
-        test,
-        use: normalLoaders[suffix],
-      }],
-    };
-  });
+  return Object.keys(normalLoaders).map((suffix) => ({
+    test: new RegExp(`\\.${suffix}$`, 'i'),
+    use: normalLoaders[suffix],
+  }));
 };
 
 module.exports = (options) => ({
